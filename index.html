@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>JS Lab4</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>Система управління сільськогосподарськими поставками</h1>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#enterprises">Підприємства</a></li>
+    <li><a data-toggle="tab" href="#supplies">Поставлення</a></li>
+    <li><a data-toggle="tab" href="#products">Продукція</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="enterprises" class="tab-pane fade in active">
+      <h3>Підприємства</h3>
+      <table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Назва</th>
+				<th>Вид діяльності</th>
+				<th>Дії</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	  </table>
+    </div>
+    <div id="supplies" class="tab-pane fade">
+      <h3>Поставлення</h3>
+      <table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Підприємство</th>
+				<th>Продукція</th>
+				<th>Дата</th>
+				<th>Обсяг</th>
+				<th>Оцінка якості</th>
+				<th>Дії</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	  </table>
+    </div>
+    <div id="products" class="tab-pane fade">
+      <h3>Продукція</h3>
+      <table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Назва</th>
+				<th>Термін зберігання</th>
+				<th>Нова загальна</th>
+				<th>Дії</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	  </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="enterpriseModal" tabindex="-1" role="dialog" aria-labelledby="enterpriseModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="enterpriseModalLongTitle">Додати/Редагувати Підприємство</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="enterpriseForm">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="enterpriseNameInput" class="form-label">Назва</label>
+              <input type="text" class="form-control" id="enterpriseNameInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="enterpriseActivityInput" class="form-label">Вид діяльності</label>
+              <input type="text" class="form-control" id="enterpriseActivityInput" required>
+            </div>
+            <input type="hidden" id="enterpriseIdInput" value=""/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeEnterpriseModal" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLongTitle">Додати/Редагувати Продукцію</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productForm">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="productNameInput" class="form-label">Назва</label>
+              <input type="text" class="form-control" id="productNameInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="productShelfLifeInput" class="form-label">Термін зберігання (днів)</label>
+              <input type="number" class="form-control" id="productShelfLifeInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="productNewGeneralInput" class="form-label">Нова загальна</label>
+              <input type="text" class="form-control" id="productNewGeneralInput" required>
+            </div>
+            <input type="hidden" id="productIdInput" value=""/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeProductModal" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="supplyModal" tabindex="-1" role="dialog" aria-labelledby="supplyModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="supplyModalLongTitle">Додати/Редагувати Поставлення</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="supplyForm">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="supplyEnterpriseInput" class="form-label">Підприємство</label>
+              <select id="supplyEnterpriseInput" class="form-select form-control form-select-lg mb-3" aria-label=".form-select-lg" required>
+              </select>  
+            </div>
+            <div class="mb-3">
+              <label for="supplyProductInput" class="form-label">Продукція</label>
+              <select id="supplyProductInput" class="form-select form-control form-select-lg mb-3" aria-label=".form-select-lg" required>
+              </select>  
+            </div>
+            <div class="mb-3">
+              <label for="supplyDateInput" class="form-label">Дата</label>
+              <input type="date" class="form-control" id="supplyDateInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="supplyVolumeInput" class="form-label">Обсяг</label>
+              <input type="number" class="form-control" id="supplyVolumeInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="supplyQualityInput" class="form-label">Оцінка якості</label>
+              <select id="supplyQualityInput" class="form-select form-control form-select-lg mb-3" aria-label=".form-select-lg" required>
+                <option value="Відмінно">Відмінно</option>
+                <option value="Добре">Добре</option>
+                <option value="Задовільно">Задовільно</option>
+                <option value="Незадовільно">Незадовільно</option>
+              </select>
+            </div>
+            <input type="hidden" id="supplyIdInput" value=""/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeSupplyModal" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
